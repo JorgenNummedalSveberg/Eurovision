@@ -10,7 +10,7 @@
             username: userName,
             country_order: data
         }
-        fetch('http://localhost:3000/eurovision/bet', {
+        fetch('/api/bet', {
             method: 'POST',
             body: JSON.stringify(newBet),
             headers: {
