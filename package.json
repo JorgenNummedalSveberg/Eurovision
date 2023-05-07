@@ -19,6 +19,7 @@
     "vite": "^4.3.2"
   },
   "dependencies": {
+    "@vercel/edge-config": "^0.1.10",
     "thin-backend": "^0.12.1"
   }
 }
