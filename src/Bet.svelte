@@ -1,0 +1,108 @@
+<script lang="ts">
+    import Slot from "./Slot.svelte";
+    let data = [{code: "fr", artist: "", name:"france", audScore: 0, judScore: 0}, {code: "no", artist: "", name:"norway", audScore: 0, judScore: 0}, {code: "de", artist: "", name:"germany", audScore: 0, judScore: 0}, {code: "gb-eng", name: "england", artist: "", audScore: 0, judScore: 0}]
+    let userName = "";
+    import {capitalize, flagURL} from "./HelperFunctions";
+
+
+    function placeBet() {
+        const newBet = {
+            username: userName,
+            country_order: data
+        }
+        fetch('http://localhost:3000/eurovision/bet', {
+            method: 'POST',
+            body: JSON.stringify(newBet),
+            headers: {
+                'Content-Type': 'application/json'
+            }}
+        ).then(res => res.json().then(json => console.log(json)))
+    }
+
+    function sortCountry(country, prevIndex, htmlElement) {
+        let index = htmlElement.value;
+        data = data.filter(x => x != country);
+        if (index <= 1) data = [country, ...data];
+        else if (index >= data.length) data = [...data, country];
+        else data = [...data.slice(0, index-1), country, ...data.slice(index-1, data.length)]
+        htmlElement.value = prevIndex+1;
+
+    }
+
+</script>
+<main>
+    <input bind:value={userName} />
+    <button on:click={placeBet}>Place bet</button>
+    <div class="country-list">
+        <div class="list-labels">
+            <div>Flag</div>
+            <div>Country</div>
+            <div>Artist</div>
+            <div>Order</div>
+        </div>
+        {#each data as country, index}
+            <Slot>
+                <div class="flag">
+                    <img class="flag-item" src={flagURL(country.code)}/>
+                </div>
+                <div>{capitalize(country.name)}:</div>
+                <div>{capitalize(country.artist)}</div>
+                <div class="flag">
+                    <input on:change={(event) => sortCountry(country, index, event.target)} class="index-picker" value={index+1}/>
+                </div>
+            </Slot>
+        {/each}
+    </div>
+</main>
+<style>
+    .country-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+        width: 500px;
+    }
+
+    .list-labels {
+        margin: 5px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .flag {
+        width: 80px;
+        height: 100%;
+        position: relative;
+    }
+
+    .flag-item {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: none;
+    }
+
+    .index-picker {
+        background-color: transparent;
+        color: transparent;
+        display: flex;
+        text-align: center;
+        border: none;
+        height: 100%;
+        width: 100%;
+    }
+    .index-picker:focus {
+        outline: none;
+    }
+
+    .index-picker:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+    }
+
+</style>
