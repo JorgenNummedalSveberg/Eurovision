@@ -3,6 +3,8 @@
     import Bet from "./Bet.svelte";
 
     let selectedTab = "live";
+
+    fetch('/api/ping').then(res => res.json().then(json => console.log(json)))
 </script>
 <main>
     <div class="buttons">
