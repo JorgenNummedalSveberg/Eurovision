@@ -1,7 +1,11 @@
 import { db } from '@vercel/postgres';
 
-export default async function handler(request, response) {
+export default async function handler(req, res) {
     const client = await db.connect();
-    const bets = await client.sql`SELECT * FROM Bets;`;
-    return response.status(200).json({ bets });
+    const {rows} = await client.sql`SELECT * FROM bets;`;
+    return res.status(200).json({ rows });
+}
+
+function sortBets(bets) {
+
 }

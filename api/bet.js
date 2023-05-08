@@ -5,11 +5,11 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
         const key = req.body["username"];
         const value = req.body["country_order"];
-        await client.sql`INSERT INTO Bets (key, value) VALUES (${key}, ${value})`;
+        await client.sql`INSERT INTO bets (username, country_order) VALUES (${key}, ${value})`;
         res.status(200).send(JSON.stringify('bet added'));
     } else if (req.method === "GET") {
         const bet = await client.sql`SELECT * FROM bets WHERE key = ${req.body["username"]};`;
-        return response.status(200).json({ bet });
+        return res.status(200).json({ bet });
     }
 
 }
