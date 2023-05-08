@@ -1,17 +1,15 @@
-import { get, set} from '@vercel/edge-config';
+import { db } from '@vercel/postgres';
 
 export default async function handler(req, res) {
+    const client = await db.connect();
     if (req.method === "POST") {
-        const bets = await get('bets');
-        bets[req.body["username"]] = req.body["country_order"];
-        await set('bets', bets);
+        const key = req.body["username"];
+        const value = req.body["country_order"];
+        await client.sql`INSERT INTO Bets (key, value) VALUES (${key}, ${value})`;
         res.status(200).send(JSON.stringify('bet added'));
     } else if (req.method === "GET") {
-        const bets = await get('bets');
-        if (bets[req.body["username"]]) {
-            res.status(200).send(JSON.stringify(bets[req.body["username"]]));
-        } else {
-            res.status(404).send(JSON.stringify("no bet under usename"))
-        }
+        const bet = await client.sql`SELECT * FROM bets WHERE key = ${req.body["username"]};`;
+        return response.status(200).json({ bet });
     }
+
 }

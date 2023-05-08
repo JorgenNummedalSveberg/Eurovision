@@ -5,17 +5,18 @@
     import {capitalize, flagURL} from "./HelperFunctions";
 
 
-    function placeBet() {
+    async function placeBet() {
         const newBet = {
             username: userName,
             country_order: data
         }
         fetch('/api/bet', {
-            method: 'POST',
-            body: JSON.stringify(newBet),
-            headers: {
-                'Content-Type': 'application/json'
-            }}
+                method: 'POST',
+                body: JSON.stringify(newBet),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
         ).then(res => res.json().then(json => console.log(json)))
     }
 
@@ -28,7 +29,7 @@
         htmlElement.value = prevIndex+1;
 
     }
-
+    fetch('api/bets').then(res => res.json().then(json => console.log(json)));
 </script>
 <main>
     <input bind:value={userName} />
@@ -43,7 +44,7 @@
         {#each data as country, index}
             <Slot>
                 <div class="flag">
-                    <img class="flag-item" src={flagURL(country.code)}/>
+                    <img alt="error" class="flag-item" src={flagURL(country.code)}/>
                 </div>
                 <div>{capitalize(country.name)}:</div>
                 <div>{capitalize(country.artist)}</div>

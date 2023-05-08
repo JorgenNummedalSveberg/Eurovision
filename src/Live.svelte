@@ -93,18 +93,6 @@
         border: none;
     }
 
-    .index-picker {
-        background-color: transparent;
-        color: transparent;
-        display: flex;
-        text-align: center;
-    }
-
-    .index-picker:hover {
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-    }
-
     .scores {
         width: 120px;
         height: 100%;

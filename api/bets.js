@@ -1,6 +1,7 @@
-import { get } from '@vercel/edge-config';
+import { db } from '@vercel/postgres';
 
-export default async function handler(req, res) {
-    const bets = await get('bets');
-    res.status(200).send(JSON.stringify(bets));
+export default async function handler(request, response) {
+    const client = await db.connect();
+    const bets = await client.sql`SELECT * FROM Bets;`;
+    return response.status(200).json({ bets });
 }
