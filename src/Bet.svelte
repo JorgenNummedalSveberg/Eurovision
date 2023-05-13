@@ -94,8 +94,8 @@
     }
 
     .index-picker {
-        background-color: transparent;
-        color: transparent;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
         display: flex;
         text-align: center;
         border: none;
@@ -104,11 +104,6 @@
     }
     .index-picker:focus {
         outline: none;
-    }
-
-    .index-picker:hover {
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
     }
 
 </style>
