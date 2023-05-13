@@ -18,10 +18,12 @@
             bet["score"] = 0;
             bet.country_order.forEach((country, index) => {
                 let scoreIndex = tempScores.findIndex(x => x.code === country.code);
-                if (index !== scoreIndex) return;
-                console.log(tempScores[scoreIndex].details.judScore)
+
                 if (parseInt(tempScores[scoreIndex].details.judScore) + parseInt(tempScores[scoreIndex].details.audScore) === 0) return;
-                bet.score++;
+                let tempScore = 3;
+                tempScore -= Math.abs(index-scoreIndex)
+
+                bet.score+=Math.max(tempScore, 0);
             })
         })
         bets = tempBets.sort(((a, b) => (a.score) > (b.score) ? -1 : 1))
