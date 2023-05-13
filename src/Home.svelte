@@ -3,7 +3,7 @@
     import Bet from "./Bet.svelte";
     import Ranking from "./Ranking.svelte";
 
-    let selectedTab = "bet";
+    let selectedTab = "bets";
 
 </script>
 <main>
