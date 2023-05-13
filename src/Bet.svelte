@@ -25,6 +25,16 @@
             }
         })
     }
+    function loadBet(){
+        fetch('api/bets').then(res => res.json().then(json => {
+            json.rows.forEach(x => {
+                if(x["username"].trim().toLowerCase() === userName.trim().toLowerCase()){
+                    data = x["country_order"];
+
+                }
+            })
+        }))
+    }
 
     function sortCountry(country, prevIndex, htmlElement) {
         let index = htmlElement.value;
@@ -45,6 +55,7 @@
 <main>
     <input bind:value={userName} />
     <button on:click={placeBet}>Place bet</button>
+    <button on:click={loadBet}>Load bet</button>
     <div class="country-list">
         <div class="list-labels">
             <div class="left-side">
