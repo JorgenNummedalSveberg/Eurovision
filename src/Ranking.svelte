@@ -20,7 +20,7 @@
                 let scoreIndex = tempScores.findIndex(x => x.code === country.code);
                 if (index !== scoreIndex) return;
                 console.log(tempScores[scoreIndex].details.judScore)
-                if (tempScores[scoreIndex].details.judScore + tempScores[scoreIndex].details.audScore === 0) return;
+                if (parseInt(tempScores[scoreIndex].details.judScore) + parseInt(tempScores[scoreIndex].details.audScore) === 0) return;
                 bet.score++;
             })
         })
