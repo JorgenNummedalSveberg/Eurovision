@@ -11,7 +11,6 @@
 
     function loadScores() {
         fetch('api/scores').then(res => res.json().then(json => {
-            console.log(json.rows)
             data = json.rows.map(x => {
                 x.details.code = x.code;
                 return x.details;
@@ -22,7 +21,32 @@
 
     loadScores();
 
+    function updateScore(country, index) {
+        let code = country.code;
+        delete country.code;
+        let jsonCountry = {
+            code: code,
+            details: country
+        }
+        fetch('api/scores', {
+            method: 'PUT',
+            body: JSON.stringify(jsonCountry),
+            headers: {
+                'Content-Type': 'application/json'
+            }}
+        ).then(res => {
+            if (res.status === 200) {
+                loadScores();
+            }
+        })
+        country.code = code;
+        data[index].judScore = country.judScore;
+        data[index].audScore = country.audScore;
+        sortCountries();
+    }
+
     function setScore() {
+
         let country = {
             code: codeInput,
             details: {
@@ -73,14 +97,69 @@
     let judScoreInput = 0;
     let audScoreInput = 0;
 
+    function closeBetting() {
+        fetch('api/config', {
+            method: 'POST',
+            body: {
+                setting: 'closed',
+                value: true
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }}
+        )
+
+    }
+
+    function uploadScores() {
+
+    }
+
+    function openBetting() {
+        fetch('api/config', {
+            method: 'POST',
+            body: {
+                setting: 'closed',
+                value: false
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            }}
+        )
+    }
+    let fileInput;
+    function ImportJson() {
+        // const reader = new FileReader();
+        // reader.onload = () => {
+        //     try {
+        //         let scores = JSON.parse(reader.result);
+        //         console.log(scores);
+        //         fetch('api/upload?json='+reader.result, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             }}
+        //         )
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // };
+        // reader.readAsText(fileInput.files[0]);
+    }
 </script>
 <main>
     Scores
+    <div>
+        <button on:click={closeBetting}>Close</button>
+        <button on:click={openBetting}>Open</button>
+        <input bind:this={fileInput} type="file">
+        <button on:click={() => ImportJson()}>Import deck from JSON</button>
+    </div>
     <div class="country-list">
         <div class="list-labels">
             <div>Flag</div>
             <div>Country</div>
-            <div>Artist</div>
+            <div>Song</div>
             <div class="score-labels">
                 <div>{"Judge\nscore"}</div>
                 <div>{"Audience\nscore"}</div>
@@ -95,11 +174,14 @@
                     <div>{capitalize(country.name)}:</div>
                     <div>{capitalize(country.artist)}</div>
                     <div class="scores">
-                        <input style="background-color: lightcoral" class="score" value={country.judScore}/>
-                        <input style="background-color: lightblue" class="score" value={country.audScore}/>
+                        <input style="background-color: lightcoral" class="score" bind:value={country.judScore}/>
+                        <input style="background-color: lightblue" class="score" bind:value={country.audScore}/>
                     </div>
                 </Slot>
-                <button class="slot-delete" on:click={deleteScore(country.code)}>Delete country</button>
+                <div class="country-buttons">
+                    <button class="slot-delete" on:click={deleteScore(country.code)}>Delete country</button>
+                    <button class="slot-delete" on:click={updateScore(country, index)}>Update country</button>
+                </div>
             </div>{/each}
         <Slot>
             <div class="flag">

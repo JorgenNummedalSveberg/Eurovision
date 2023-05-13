@@ -21,6 +21,6 @@
   "dependencies": {
     "@vercel/edge-config": "^0.1.10",
     "@vercel/postgres": "^0.2.1",
-    "thin-backend": "^0.12.1"
+    "svelte-routing": "^1.8.8"
   }
 }

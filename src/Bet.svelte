@@ -1,6 +1,6 @@
 <script lang="ts">
     import Slot from "./Slot.svelte";
-    let data = [{code: "fr", artist: "", name:"france", audScore: 0, judScore: 0}, {code: "no", artist: "", name:"norway", audScore: 0, judScore: 0}, {code: "de", artist: "", name:"germany", audScore: 0, judScore: 0}, {code: "gb-eng", name: "england", artist: "", audScore: 0, judScore: 0}]
+    let data = [];
     let userName = "";
     import {capitalize, flagURL} from "./HelperFunctions";
 
@@ -24,12 +24,17 @@
         let index = htmlElement.value;
         data = data.filter(x => x != country);
         if (index <= 1) data = [country, ...data];
-        else if (index >= data.length) data = [...data, country];
+        else if (index > data.length) data = [...data, country];
         else data = [...data.slice(0, index-1), country, ...data.slice(index-1, data.length)]
         htmlElement.value = prevIndex+1;
 
     }
-    fetch('api/bets').then(res => res.json().then(json => console.log(json)));
+    fetch('api/scores').then(res => res.json().then(json => {
+        data = json.rows.map(x => {
+            x.details.code = x.code;
+            return x.details;
+        });
+    }));
 </script>
 <main>
     <input bind:value={userName} />
@@ -38,10 +43,10 @@
         <div class="list-labels">
             <div>Flag</div>
             <div>Country</div>
-            <div>Artist</div>
+            <div>Song</div>
             <div>Order</div>
         </div>
-        {#each data as country, index}
+            {#each data as country, index}
             <Slot>
                 <div class="flag">
                     <img alt="error" class="flag-item" src={flagURL(country.code)}/>

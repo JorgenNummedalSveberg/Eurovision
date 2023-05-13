@@ -5,7 +5,16 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
         const key = req.body["code"];
         const value = req.body["details"];
-        await client.sql`INSERT INTO scores (code, details) VALUES (${key}, ${value})`;
+        try {
+            await client.sql`INSERT INTO scores (code, details) VALUES (${key}, ${value})`;
+        } catch {
+            await client.sql`UPDATE scores SET details = ${value} WHERE code = ${key}`;
+        }
+        res.status(200).send(JSON.stringify('scores added'));
+    } else if (req.method === "PUT") {
+        const key = req.body["code"];
+        const value = req.body["details"];
+        await client.sql`UPDATE scores SET details = ${value} WHERE code = ${key}`;
         res.status(200).send(JSON.stringify('scores added'));
     } else if (req.method === "GET") {
         const {rows} = await client.sql`SELECT * FROM scores;`;
