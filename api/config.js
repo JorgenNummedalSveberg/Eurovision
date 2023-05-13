@@ -4,10 +4,10 @@ export default async function handler(req, res) {
     const client = await db.connect();
     if (req.method === 'POST') {
         try {
-            await client.sql`INSERT INTO config (setting, value) VALUES (${req.body["setting"]}, ${req.body["value"]})`;
+            await client.sql`INSERT INTO config (setting, value) VALUES ('closed', ${req.query["closed"]})`;
             res.status(200).send(JSON.stringify('config added'));
         } catch (e) {
-            await client.sql`UPDATE scores SET value = ${req.body["value"]} WHERE setting = ${req.body["setting"]}`;
+            await client.sql`UPDATE config SET value = ${req.query["closed"]} WHERE setting = 'closed'`;
             res.status(500).send(JSON.stringify(e));
         }
     } else if (req.method === 'GET') {

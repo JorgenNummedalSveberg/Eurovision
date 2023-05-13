@@ -5,12 +5,7 @@ export default async function handler(req, res) {
     if (req.method === "POST") {
         const key = req.body["username"];
         const value = req.body["country_order"];
-        let closed;
-        try {
-            closed = await client.sql`SELECT * FROM config WHERE key = 'closed';`;
-        } catch {
-            closed = false;
-        }
+        let closed = await client.sql`SELECT * FROM config WHERE setting = 'closed';`;
         if (closed) return res.status(403).json("betting has closed");
         try {
             await client.sql`INSERT INTO bets (username, country_order) VALUES (${key}, ${value})`;

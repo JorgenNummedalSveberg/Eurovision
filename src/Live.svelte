@@ -98,12 +98,8 @@
     let audScoreInput = 0;
 
     function closeBetting() {
-        fetch('api/config', {
+        fetch('api/config?closed=true', {
             method: 'POST',
-            body: {
-                setting: 'closed',
-                value: true
-            },
             headers: {
                 'Content-Type': 'application/json'
             }}
@@ -116,12 +112,8 @@
     }
 
     function openBetting() {
-        fetch('api/config', {
+        fetch('api/config?closed=false', {
             method: 'POST',
-            body: {
-                setting: 'closed',
-                value: false
-            },
             headers: {
                 'Content-Type': 'application/json'
             }}

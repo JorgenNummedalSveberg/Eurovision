@@ -17,7 +17,9 @@
                     'Content-Type': 'application/json'
                 }
             }
-        ).then(res => res.json().then(json => console.log(json)))
+        ).then(res => res.json().then(json => console.log(json))).catch(e => {
+            alert("ello");
+        })
     }
 
     function sortCountry(country, prevIndex, htmlElement) {
