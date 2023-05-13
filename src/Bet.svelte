@@ -17,8 +17,12 @@
                     'Content-Type': 'application/json'
                 }
             }
-        ).then(res => res.json().then(json => console.log(json))).catch(e => {
-            alert("ello");
+        ).then(res => {
+            if (res.status === 200) {
+                alert('bet added!')
+            } else if (res.status === 403) {
+                alert('betting has closed')
+            }
         })
     }
 
