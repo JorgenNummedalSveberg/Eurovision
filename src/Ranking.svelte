@@ -19,7 +19,8 @@
             bet.country_order.forEach((country, index) => {
                 let scoreIndex = tempScores.findIndex(x => x.code === country.code);
                 if (index !== scoreIndex) return;
-                if (tempScores[scoreIndex].judScore + tempScores[scoreIndex].audScore === 0) return;
+                console.log(tempScores[scoreIndex].details.judScore)
+                if (tempScores[scoreIndex].details.judScore + tempScores[scoreIndex].details.audScore === 0) return;
                 bet.score++;
             })
         })

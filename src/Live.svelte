@@ -5,17 +5,12 @@
     import {capitalize, flagURL} from "./HelperFunctions";
 
 
-    function sortCountries() {
-        data = data.sort((a, b) => (a.judScore + a.audScore) > (b.judScore + b.audScore) ? -1 : 1);
-    }
-
     function loadScores() {
         fetch('api/scores').then(res => res.json().then(json => {
             data = json.rows.map(x => {
                 x.details.code = x.code;
                 return x.details;
             });
-            sortCountries();
         }))
     }
 
