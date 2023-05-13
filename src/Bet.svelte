@@ -41,17 +41,23 @@
     <button on:click={placeBet}>Place bet</button>
     <div class="country-list">
         <div class="list-labels">
-            <div>Flag</div>
-            <div>Country</div>
+            <div class="left-side">
+                <div class="flag">
+                    <div class="flag-item">Flag</div>
+                </div>
+                <div class="country-name">Country</div>
+            </div>
             <div>Song</div>
-            <div>Order</div>
+            <div class="order">Order</div>
         </div>
             {#each data as country, index}
             <Slot>
-                <div class="flag">
-                    <img alt="error" class="flag-item" src={flagURL(country.code)}/>
+                <div class="left-side">
+                    <div class="flag">
+                        <img alt="error" class="flag-item" src={flagURL(country.code)}/>
+                    </div>
+                    <div class="country-name">{capitalize(country.name)}:</div>
                 </div>
-                <div>{capitalize(country.name)}:</div>
                 <div>{capitalize(country.artist)}</div>
                 <div class="flag">
                     <input on:change={(event) => sortCountry(country, index, event.target)} class="index-picker" value={index+1}/>
@@ -69,6 +75,10 @@
         width: 500px;
     }
 
+    .order {
+        margin-right: 20px;
+    }
+
     .list-labels {
         margin: 5px;
         display: flex;
@@ -76,6 +86,16 @@
         justify-content: space-between;
         align-items: center;
         overflow: hidden;
+    }
+
+    .country-name{
+        padding: 8px;
+    }
+    .left-side {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        align-items: center;
     }
 
     .flag {
@@ -91,6 +111,9 @@
         height: 100%;
         padding: 0;
         border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .index-picker {
