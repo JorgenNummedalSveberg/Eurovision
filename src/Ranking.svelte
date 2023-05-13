@@ -34,6 +34,7 @@
         <div>Username</div>
         <div>Score</div>
     </div>
+    {#if bets.length === 0}Loading...{/if}
     {#each bets as bet, index}
         <Slot>
             <div class="leftside">

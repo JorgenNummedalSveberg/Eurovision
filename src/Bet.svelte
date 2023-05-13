@@ -56,6 +56,7 @@
             <div>Song</div>
             <div class="order">Order</div>
         </div>
+        {#if data.length === 0}Loading...{/if}
             {#each data as country, index}
             <Slot>
                 <div class="left-side">
