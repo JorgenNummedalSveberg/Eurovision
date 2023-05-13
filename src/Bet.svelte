@@ -7,7 +7,7 @@
 
     async function placeBet() {
         const newBet = {
-            username: userName,
+            username: userName.trim(),
             country_order: data
         }
         fetch('/api/bet', {
