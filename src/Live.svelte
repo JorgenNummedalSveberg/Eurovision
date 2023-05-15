@@ -23,6 +23,8 @@
             code: code,
             details: country
         }
+        jsonCountry.details.judScore = parseInt(jsonCountry.details.judScore);
+        jsonCountry.details.audScore = parseInt(jsonCountry.details.audScore);
         fetch('api/scores', {
             method: 'PUT',
             body: JSON.stringify(jsonCountry),
@@ -47,8 +49,8 @@
             details: {
                 name: nameInput,
                 artist: artistInput,
-                judScore: judScoreInput,
-                audScore: audScoreInput,
+                judScore: parseInt(judScoreInput),
+                audScore: parseInt(audScoreInput),
             }
         }
         fetch('api/scores', {
